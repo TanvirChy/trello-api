@@ -17,6 +17,7 @@ class trelloController extends BaseController
 
     public  function index()
     {
+        var_dump(Session::get('accessToken'));
         view('trelloAuthView');
     }
 
@@ -34,10 +35,9 @@ class trelloController extends BaseController
 
     public function getAccessTokenView($apiKey)
     {
-
         $data = [
 
-            "urlWithKey" => $this->baseUrl . 'authorize?expiration=never&name=trelloToken&scope=read,write,account&response_type=token&key=' . $apiKey
+            "urlWithKey" => $this->baseUrl . 'authorize?expiration=never&name=trelloToken&scope=read,write,account&response_type=token&key=' . $apiKey . '&return_url=http://localhost/trelloapi/trello/returnUrlToken?data'
         ];
 
         view('trelloGetAccessTokenView', $data);
@@ -45,7 +45,12 @@ class trelloController extends BaseController
 
     public function returnUrlToken()
     {
-        var_dump($_SERVER);
+        // var_dump($_SERVER['REQUEST_URI']);
+
+        // var_dump($_SERVER);
+       
+        view('returnUrlTokenView');
+
     }
 
 
@@ -62,9 +67,9 @@ class trelloController extends BaseController
 
     public function createCard()
     {
-        $urlGetBorad = $this->baseUrl . 'cards/?key=f64e7d747fcc4405611f43c0fff82f66&token=92c62596ead592e1c7180cb94573e94ec4dad6e6ed727ab4b1cb0b843d3323e6';
+        $urlGetBorad = $this->baseUrl . 'cards/?key=f64e7d747fcc4405611f43c0fff82f66&token=b79db683d8ba4fced5912155318215cfe852d0e1539d2e58234b4db874d9a6b4';
         $query = array(
-            "name" => "trello Bitcode",
+            "name" => "hello everone",
             "idBoard" => "61e99ee1c5ff3d8b80356b25",
             "idList" => "61e99ee1c5ff3d8b80356b26"
         );

@@ -6,11 +6,6 @@ use App\Models\Users;
 use App\Core\Session;
 
 
-
-
-
-
-
 class PageController extends BaseController
 {
     protected $data;

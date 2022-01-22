@@ -10,18 +10,14 @@
 
 <?= $this->start('body') ?>
 
-<h2>Trello Authorigation.</h2>
+<h2>Trello getAccessTokenView.</h2>
+<?php $urlWithKey = $data['urlWithKey'] ?>
+<?php echo $urlWithKey ?>
 
-<div>
-
-    <form action="<?= route('/trello/takeKey') ?>" method="POST">
-        <label for="key">Key</label>
-        <input type="text" name="key" placeholder="key">
-        <button type="submit">Submit</button>
-    </form>
+<div >
+    
+    <a href="<?= $urlWithKey ?>">Trigger</a>
 </div>
-
-
 
 
 <?= $this->end() ?>

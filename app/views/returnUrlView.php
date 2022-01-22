@@ -1,4 +1,4 @@
-<?= $this->setSiteTile('Registration') ?>
+<?= $this->setSiteTile('Return URl') ?>
 
 <?= $this->start('head') ?>
 <style>
@@ -10,16 +10,7 @@
 
 <?= $this->start('body') ?>
 
-<h2>Trello Authorigation.</h2>
-
-<div>
-
-    <form action="<?= route('/trello/takeKey') ?>" method="POST">
-        <label for="key">Key</label>
-        <input type="text" name="key" placeholder="key">
-        <button type="submit">Submit</button>
-    </form>
-</div>
+<h2>Return Url</h2>
 
 
 

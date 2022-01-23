@@ -10,15 +10,15 @@ class trelloController extends BaseController
 {
     protected $baseUrl = 'https://api.trello.com/1/';
     protected $apiKey;
-    protected $accessToken;
+
 
     // key=f64e7d747fcc4405611f43c0fff82f66
 
-    
+
 
     public  function index()
     {
-
+        // b79db683d8ba4fced5912155318215cfe852d0e1539d2e58234b4db874d9a6b4
         view('trelloAuthView');
     }
 
@@ -35,6 +35,7 @@ class trelloController extends BaseController
 
     public function getAccessTokenView($apiKey)
     {
+        Session::set('apiKeySession', $apiKey);
         $data = [
 
             "urlWithKey" => $this->baseUrl . 'authorize?expiration=never&name=trelloToken&scope=read,write,account&response_type=token&key=' . $apiKey . '&return_url=http://localhost/trelloapi/trello/returnUrlToken'
@@ -57,17 +58,44 @@ class trelloController extends BaseController
     public function getBoardData()
     {
 
+        $apiKey = Session::get('apiKeySession');
+        $accessToken = Session::get('accessToken');
 
-        $urlGetBorad = $this->baseUrl . 'boards/aKI35Uq2/?key=' . $this->apiKey . '&token=' . $this->accessToken;
+        $urlGetBorad = $this->baseUrl . 'boards/aKI35Uq2/?key=' . $apiKey . '&token=' . $accessToken;
+        $urlGetBoradAllCards =  $this->baseUrl . '/boards/aKI35Uq2/cards?key=' . $apiKey . '&token=' . $accessToken;
 
         $getBoard = Http::get($urlGetBorad);
+        $getBoardAllCards = Http::get($urlGetBoradAllCards);
+        $getBoardDataDecode = json_decode($getBoard);
+        $getBoardAllCardsDecode = json_decode($getBoardAllCards);
 
-        var_dump($getBoard);
+        $data = [
+            "getBoradData" => $getBoardDataDecode,
+            "getBoardAllCards" => $getBoardAllCardsDecode
+
+        ];
+
+        view('getBoardDataView', $data);
     }
+
+    // public function getBoardAllCards()
+    // {
+    //     $apiKey = Session::get('apiKeySession');
+    //     $accessToken = Session::get('accessToken');
+
+    //     $urlGetBoradAllCards =  $this->baseUrl . '/boards/aKI35Uq2/cards?key=' . $apiKey . '&token=' . $accessToken;
+
+    //     $getBoardAllCards = Http::get($urlGetBoradAllCards);
+
+    //     $data = ["getBoardAllCards" => $getBoardAllCards];
+    //     view('getBoardDataView', $data);
+    // }
 
     public function createCard()
     {
-        $urlGetBorad = $this->baseUrl . 'cards/?key=' . $this->apiKey . '&token=' . $this->accessToken;
+        $apiKey = Session::get('apiKeySession');
+        $accessToken = Session::get('accessToken');
+        $urlGetBorad = $this->baseUrl . 'cards/?key=' . $apiKey . '&token=' . $accessToken;
         $query = array(
             "name" => "hello everone",
             "idBoard" => "61e99ee1c5ff3d8b80356b25",
@@ -84,9 +112,7 @@ class trelloController extends BaseController
 
     public function takeHash()
     {
-        $this->accessToken = $_POST['#token'];
-
-
-        echo " hello every one {$this->accessToken}";
+        $accessToken = $_POST['#token'];
+        Session::set('accessToken', $accessToken);
     }
 }

@@ -13,7 +13,7 @@
 <h2>See The Boad </h2>
 
 <?php $getBoardData = $data['getBoradData'] ?>
-<?php $getBoardAllCards = $data['getBoardAllCards'] ?>
+<?php $urlGetBoardLists = $data['urlGetBoardLists'] ?>
 
 <h1><?php echo $getBoardData->name ?></h1>
 <p> <?php echo $getBoardData->desc ?></p>
@@ -22,7 +22,15 @@
 
 <?php
 
-dd($getBoardAllCards)
+
+foreach ($urlGetBoardLists as $key => $value) {
+?>
+    <a href="<?php echo route('/trello/boardList/' . $value->id) ?>">
+
+        <h3><?= $value->name ?></h3>
+    </a>
+<?php
+}
 
 ?>
 

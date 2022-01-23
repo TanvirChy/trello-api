@@ -61,18 +61,18 @@ class trelloController extends BaseController
         $apiKey = Session::get('apiKeySession');
         $accessToken = Session::get('accessToken');
 
-        $urlGetBorad = $this->baseUrl . 'boards/aKI35Uq2/?key=' . $apiKey . '&token=' . $accessToken;
-        $urlGetBoradAllCards =  $this->baseUrl . '/boards/aKI35Uq2/cards?key=' . $apiKey . '&token=' . $accessToken;
+        $urlGetBoradUrl = $this->baseUrl . 'boards/aKI35Uq2/?key=' . $apiKey . '&token=' . $accessToken;
+        $urlGetBoardListsUrl = $this->baseUrl . 'boards/aKI35Uq2/lists?key=' . $apiKey . '&token=' . $accessToken;
 
-        $getBoard = Http::get($urlGetBorad);
-        $getBoardAllCards = Http::get($urlGetBoradAllCards);
+        $getBoard = Http::get($urlGetBoradUrl);
+        $urlGetBoardLists = Http::get($urlGetBoardListsUrl);
+
         $getBoardDataDecode = json_decode($getBoard);
-        $getBoardAllCardsDecode = json_decode($getBoardAllCards);
+        $urlGetBoardListsDecode = json_decode($urlGetBoardLists);
 
         $data = [
             "getBoradData" => $getBoardDataDecode,
-            "getBoardAllCards" => $getBoardAllCardsDecode
-
+            "urlGetBoardLists" => $urlGetBoardListsDecode
         ];
 
         view('getBoardDataView', $data);
@@ -114,5 +114,21 @@ class trelloController extends BaseController
     {
         $accessToken = $_POST['#token'];
         Session::set('accessToken', $accessToken);
+    }
+
+    public function boardList($id)
+    {
+        $apiKey = Session::get('apiKeySession');
+        $accessToken = Session::get('accessToken');
+        $urlGetBoradListCards = $this->baseUrl . 'lists/' . $id . '/cards?key=' . $apiKey . '&token=' . $accessToken;
+
+        $urlGetBoradListCards = Http::get($urlGetBoradListCards);
+        $urlGetBoradListCardsDecode = json_decode($urlGetBoradListCards);
+
+        $data = [
+            "urlGetBoradListCards" => $urlGetBoradListCardsDecode
+        ];
+
+        view('listCardsView',$data);
     }
 }

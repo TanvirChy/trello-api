@@ -2,7 +2,6 @@
 // include_once '..' . DS . 'app' . DS . 'models' . DS . 'Users.php';
 
 use App\Core\BaseController;
-use App\Models\Users;
 use App\Core\Session;
 use App\Libraries\Http;
 
@@ -93,13 +92,22 @@ class trelloController extends BaseController
 
     public function createCard()
     {
+        $card = null;
+        if (isset($_POST['card'])) {
+            $card = $_POST['card'];
+        }
         $apiKey = Session::get('apiKeySession');
         $accessToken = Session::get('accessToken');
-        $urlGetBorad = $this->baseUrl . 'cards/?key=' . $apiKey . '&token=' . $accessToken;
+        $boardListData = Session::get('urlGetBoradListCards');
+        
+
+        $boardId = Session::get('boardId');
+        $listId = Session::get('listId');
+        // dd($listId);
+        echo "{$listId} from create page";
+        $urlGetBorad = $this->baseUrl . '/cards/?idList=' . $listId . '&key=' . $apiKey . '&token=' . $accessToken;
         $query = array(
-            "name" => "hello everone",
-            "idBoard" => "61e99ee1c5ff3d8b80356b25",
-            "idList" => "61e99ee1c5ff3d8b80356b26"
+            "name" => $card,
         );
 
         $response = Http::post(
@@ -107,7 +115,10 @@ class trelloController extends BaseController
             $query
         );
 
-        var_dump($response);
+        if ($response) {
+
+            redirectTo('/trello/boardList/' . $boardId);
+        }
     }
 
     public function takeHash()
@@ -118,17 +129,24 @@ class trelloController extends BaseController
 
     public function boardList($id)
     {
+        Session::set('boardId', $id);
         $apiKey = Session::get('apiKeySession');
         $accessToken = Session::get('accessToken');
         $urlGetBoradListCards = $this->baseUrl . 'lists/' . $id . '/cards?key=' . $apiKey . '&token=' . $accessToken;
 
-        $urlGetBoradListCards = Http::get($urlGetBoradListCards);
-        $urlGetBoradListCardsDecode = json_decode($urlGetBoradListCards);
-
+        $apiResponse = Http::get($urlGetBoradListCards);
+        
+        // dd( $apiResponse);
+        $apiResponseDecoded = json_decode($apiResponse);
+        $listId = $apiResponseDecoded[0]->idList;
+       
+       
+        Session::set('urlGetBoradListCards', $apiResponseDecoded);
         $data = [
-            "urlGetBoradListCards" => $urlGetBoradListCardsDecode
+            "urlGetBoradListCards" => $apiResponseDecoded
         ];
 
-        view('listCardsView',$data);
+
+        view('listCardsView', $data);
     }
 }

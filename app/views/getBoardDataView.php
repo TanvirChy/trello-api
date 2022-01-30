@@ -22,9 +22,9 @@
 
 <?php
 
-
 foreach ($urlGetBoardLists as $key => $value) {
 ?>
+    
     <a href="<?php echo route('/trello/boardList/' . $value->id) ?>">
 
         <h3><?= $value->name ?></h3>

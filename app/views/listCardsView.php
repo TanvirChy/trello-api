@@ -17,7 +17,7 @@
 
 <?php
 
-
+// dd($urlGetBoradListCards);
 foreach ($urlGetBoradListCards as $key => $value) {
 ?>
 
@@ -29,6 +29,18 @@ foreach ($urlGetBoradListCards as $key => $value) {
 
 ?>
 
+
+<div>
+    <form action=" <?php echo route('/trello/createCard') ?> " method="POST">
+        <label class="reg-field-label" for="card">Create Card</label>
+        <input class="reg-field-input" type="card" name="card" placeholder="card" required>
+        <div>
+
+            <button type="submit" class="reg-fonfirm-btn">Add</button>
+        </div>
+    </form>
+
+</div>
 
 <?= $this->end() ?>
 

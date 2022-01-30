@@ -144,6 +144,7 @@ class PageController extends BaseController
 
     public function takeUpdateProfile()
     {
+       
         if (
             $_SERVER["REQUEST_METHOD"] == "POST" &&
             !empty($_POST['name']) &&

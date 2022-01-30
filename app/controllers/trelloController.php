@@ -90,21 +90,20 @@ class trelloController extends BaseController
     //     view('getBoardDataView', $data);
     // }
 
-    public function createCard()
+    public function createCard($boardId,$listId)
     {
         $card = null;
         if (isset($_POST['card'])) {
             $card = $_POST['card'];
         }
+        
         $apiKey = Session::get('apiKeySession');
         $accessToken = Session::get('accessToken');
         $boardListData = Session::get('urlGetBoradListCards');
         
 
-        $boardId = Session::get('boardId');
-        $listId = Session::get('listId');
-        // dd($listId);
-        echo "{$listId} from create page";
+       
+       
         $urlGetBorad = $this->baseUrl . '/cards/?idList=' . $listId . '&key=' . $apiKey . '&token=' . $accessToken;
         $query = array(
             "name" => $card,
@@ -117,7 +116,7 @@ class trelloController extends BaseController
 
         if ($response) {
 
-            redirectTo('/trello/boardList/' . $boardId);
+            redirectTo('/trello/boardList/' . $listId);
         }
     }
 
@@ -138,7 +137,7 @@ class trelloController extends BaseController
         
         // dd( $apiResponse);
         $apiResponseDecoded = json_decode($apiResponse);
-        $listId = $apiResponseDecoded[0]->idList;
+        
        
        
         Session::set('urlGetBoradListCards', $apiResponseDecoded);

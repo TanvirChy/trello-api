@@ -27,11 +27,9 @@
     ?>
         <div class="card-name">
             <p>
-                
-                
                 <?= $value->name ?>
             </p>
-            <a href=" <?php echo route('/trello/deleteCard/' . $value->id . '/' .$value->idList) ?>">Delete</a>
+            <a class="single-card-delete-btn" href=" <?php echo route('/trello/deleteCard/' . $value->id . '/' .$value->idList) ?>">Delete</a>
         </div>
     <?php
     }

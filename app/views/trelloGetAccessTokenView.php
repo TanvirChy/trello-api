@@ -10,13 +10,13 @@
 
 <?= $this->start('body') ?>
 
-<h2>Trello getAccessTokenView.</h2>
+<h2 class="get-access-view-header">Trello getAccessTokenView.</h2>
 <?php $urlWithKey = $data['urlWithKey'] ?>
-<?php echo $urlWithKey ?>
+
 
 <div >
     
-    <a href="<?= $urlWithKey ?>">Trigger</a>
+    <a href="<?= $urlWithKey ?>" class="trigger-btn">Trigger</a>
 </div>
 
 

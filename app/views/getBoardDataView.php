@@ -10,30 +10,29 @@
 
 <?= $this->start('body') ?>
 
-<h2>See The Boad </h2>
 
 <?php $getBoardData = $data['getBoradData'] ?>
 <?php $urlGetBoardLists = $data['urlGetBoardLists'] ?>
+<div class="board-view-hearder">
 
-<h1><?php echo $getBoardData->name ?></h1>
-<p> <?php echo $getBoardData->desc ?></p>
+    <h1 class="board-view-title"><?php echo $getBoardData->name ?></h1>
+    <p class="board-view-desc"> <?php echo $getBoardData->desc ?></p>
+</div>
+<div class="board-lists-view">
 
+    <?php
 
+    foreach ($urlGetBoardLists as $key => $value) {
+    ?>
 
-<?php
+        <a href="<?php echo route('/trello/boardList/' . $value->id) ?>" class="board-redict-tag">
+            <h3 class="single-list"><?= $value->name ?></h3>
+        </a>
+    <?php
+    }
+    ?>
 
-foreach ($urlGetBoardLists as $key => $value) {
-?>
-    
-    <a href="<?php echo route('/trello/boardList/' . $value->id) ?>">
-
-        <h3><?= $value->name ?></h3>
-    </a>
-<?php
-}
-
-?>
-
+</div>
 
 <?= $this->end() ?>
 

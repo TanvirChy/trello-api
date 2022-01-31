@@ -3,48 +3,48 @@
 <?= $this->start('head') ?>
 <style>
     body {
-        background-color: #dfffdf;
+        background-color: white;
     }
 </style>
 <?= $this->end() ?>
 
 <?= $this->start('body') ?>
+<div class="cards-header">
+    <h2 class="cards-title">View List cards</h2>
+    <a href="<?php echo route('/trello/getBoardData') ?>" class="cards-btn">Go To Board</a>
+</div>
 
-<h2>View List cards</h2>
+<div class="list-card">
 
 
 <?php $urlGetBoradListCards = $data['urlGetBoradListCards'] ?>
 
 <?php
-
-
 $boardId = $urlGetBoradListCards[0]->idBoard;
-// dd($boardId);
 $listId = $urlGetBoradListCards[0]->idList;
+
 foreach ($urlGetBoradListCards as $key => $value) {
 ?>
-
-    <h2>
+    <div class="card-name">
+        <p>
         <?= $value->name ?>
-    </h2>
+        </p> 
+    </div>
 <?php
 }
 
 ?>
 
 
-<div>
-    <form action=" <?php echo route('/trello/createCard/' . $boardId . '/' . $listId) ?> " method="POST">
-        <label class="reg-field-label" for="card">Create Card</label>
-        <input class="reg-field-input" type="card" name="card" placeholder="card" required>
+    <form action=" <?php echo route('/trello/createCard/' . $boardId . '/' . $listId) ?> " method="POST" class="create-card">
+        <label class="create-card-label" for="card">Create Card</label>
+        <input class="create-card-input" type="card" name="card" placeholder="card" required>
         <div>
-
-            <button type="submit" class="reg-fonfirm-btn">Add</button>
+            <button type="submit" class="create-btn">Add</button>
         </div>
     </form>
-
 </div>
-
+</div>
 <?= $this->end() ?>
 
 

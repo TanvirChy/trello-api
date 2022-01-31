@@ -17,23 +17,26 @@
 <div class="list-card">
 
 
-<?php $urlGetBoradListCards = $data['urlGetBoradListCards'] ?>
+    <?php $urlGetBoradListCards = $data['urlGetBoradListCards'] ?>
 
-<?php
-$boardId = $urlGetBoradListCards[0]->idBoard;
-$listId = $urlGetBoradListCards[0]->idList;
+    <?php
+    $boardId = $urlGetBoradListCards[0]->idBoard;
+    $listId = $urlGetBoradListCards[0]->idList;
 
-foreach ($urlGetBoradListCards as $key => $value) {
-?>
-    <div class="card-name">
-        <p>
-        <?= $value->name ?>
-        </p> 
-    </div>
-<?php
-}
+    foreach ($urlGetBoradListCards as $key => $value) {
+    ?>
+        <div class="card-name">
+            <p>
+                
+                
+                <?= $value->name ?>
+            </p>
+            <a href=" <?php echo route('/trello/deleteCard/' . $value->id . '/' .$value->idList) ?>">Delete</a>
+        </div>
+    <?php
+    }
 
-?>
+    ?>
 
 
     <form action=" <?php echo route('/trello/createCard/' . $boardId . '/' . $listId) ?> " method="POST" class="create-card">

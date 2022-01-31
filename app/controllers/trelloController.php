@@ -11,13 +11,9 @@ class trelloController extends BaseController
     protected $apiKey;
 
 
-    // key=f64e7d747fcc4405611f43c0fff82f66
-
-
-
     public  function index()
     {
-        // b79db683d8ba4fced5912155318215cfe852d0e1539d2e58234b4db874d9a6b4
+
         view('trelloAuthView');
     }
 
@@ -45,10 +41,6 @@ class trelloController extends BaseController
 
     public function returnUrlToken()
     {
-
-        // $return_url = ("<script type='text/javascript'> window.location.href</script>");
-        // echo $return_url;
-        // var_dump($_SERVER);
 
         view('returnUrlTokenView');
     }
@@ -90,20 +82,20 @@ class trelloController extends BaseController
     //     view('getBoardDataView', $data);
     // }
 
-    public function createCard($boardId,$listId)
+    public function createCard($boardId, $listId)
     {
         $card = null;
         if (isset($_POST['card'])) {
             $card = $_POST['card'];
         }
-        
+
         $apiKey = Session::get('apiKeySession');
         $accessToken = Session::get('accessToken');
         $boardListData = Session::get('urlGetBoradListCards');
-        
 
-       
-       
+
+
+
         $urlGetBorad = $this->baseUrl . '/cards/?idList=' . $listId . '&key=' . $apiKey . '&token=' . $accessToken;
         $query = array(
             "name" => $card,
@@ -128,24 +120,35 @@ class trelloController extends BaseController
 
     public function boardList($id)
     {
+        // this id is list id 
         Session::set('boardId', $id);
         $apiKey = Session::get('apiKeySession');
         $accessToken = Session::get('accessToken');
         $urlGetBoradListCards = $this->baseUrl . 'lists/' . $id . '/cards?key=' . $apiKey . '&token=' . $accessToken;
 
         $apiResponse = Http::get($urlGetBoradListCards);
-        
-        // dd( $apiResponse);
+
         $apiResponseDecoded = json_decode($apiResponse);
-        
-       
-       
+
         Session::set('urlGetBoradListCards', $apiResponseDecoded);
         $data = [
             "urlGetBoradListCards" => $apiResponseDecoded
         ];
 
-
         view('listCardsView', $data);
+    }
+
+    public function deleteCard($cardId, $listId)
+    {
+
+        $apiKey = Session::get('apiKeySession');
+        $accessToken = Session::get('accessToken');
+        $urlDeleteCard = $this->baseUrl . 'cards/' . $cardId . '?key=' . $apiKey . '&token=' . $accessToken;
+
+        $apiResponse = Http::delete($urlDeleteCard);
+
+        if ($apiResponse) {
+            redirectTo('/trello/boardList/' . $listId);
+        }
     }
 }

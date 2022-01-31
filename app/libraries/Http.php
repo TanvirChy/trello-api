@@ -20,6 +20,11 @@ class Http
         return $response;
     }
 
+    public static function delete($url){
+        return self::request('DELETE',$url);
+
+    }
+
     public static function request($method, $url, $data = [], $contentType = null)
     {
         $curl = curl_init();
